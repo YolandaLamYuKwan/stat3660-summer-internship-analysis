@@ -77,12 +77,18 @@ The complete executable program is:
 sas/internship_analysis.sas
 ```
 
-Before running it, edit the two macro variables at the beginning of the file if the project directory is different:
+Run the program with the repository root as the SAS current working directory. The program now discovers the current project directory and builds portable `data` and `output` paths automatically:
 
 ```sas
-%let input_dir=C:\Users\hklam\Documents\ChatGPT\Stat 3660\data;
-%let output_dir=C:\Users\hklam\Documents\ChatGPT\Stat 3660\output;
+filename project ".";
+%let project_dir=%sysfunc(pathname(project));
+filename project clear;
+
+%let input_dir=&project_dir./data;
+%let output_dir=&project_dir./output;
 ```
+
+On another computer, download or clone the repository, set the SAS current working directory to the repository root, and run `sas/internship_analysis.sas`. No user-specific `C:\Users\...` path is required.
 
 Run the program in SAS 9.4 or SAS Studio. It will:
 

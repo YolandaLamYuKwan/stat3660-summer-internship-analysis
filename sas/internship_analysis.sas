@@ -12,11 +12,19 @@ options mprint mlogic symbolgen;
 ods graphics on;
 
 /*--------------------------------------------------------------*
- | 1. User settings                                             |
+ | 1. Portable project paths                                    |
+ |                                                              |
+ | Run this program with the repository root as the SAS current |
+ | working directory. The paths below then work on Windows,    |
+ | macOS, Linux, SAS Studio, and other computers.               |
  *--------------------------------------------------------------*/
 
-%let input_dir=C:\Users\hklam\Documents\ChatGPT\Stat 3660\data;
-%let output_dir=C:\Users\hklam\Documents\ChatGPT\Stat 3660\output;
+filename project ".";
+%let project_dir=%sysfunc(pathname(project));
+filename project clear;
+
+%let input_dir=&project_dir./data;
+%let output_dir=&project_dir./output;
 
 libname outlib "&output_dir";
 
@@ -420,7 +428,7 @@ run;
 %macro import_csv_if_exists(file=, out=);
 
     %local fullpath;
-    %let fullpath=&input_dir\&file;
+    %let fullpath=&input_dir./&file;
 
     %if %sysfunc(fileexist("&fullpath")) %then %do;
 
@@ -455,7 +463,7 @@ run;
 %macro import_xlsx_if_exists(file=, sheet=, out=);
 
     %local fullpath;
-    %let fullpath=&input_dir\&file;
+    %let fullpath=&input_dir./&file;
 
     %if %sysfunc(fileexist("&fullpath")) %then %do;
 
@@ -582,7 +590,7 @@ run;
     run;
 
     proc export data=outlib.intern_analysis
-        outfile="&output_dir\intern_analysis.csv"
+        outfile="&output_dir./intern_analysis.csv"
         dbms=csv
         replace;
         putnames=yes;
@@ -598,7 +606,7 @@ run;
 
     %if &analysis_ready = 0 %then %do;
         %put WARNING: No input file was found. Copy the template to;
-        %put WARNING: &input_dir\intern_data.csv and rerun the program.;
+        %put WARNING: &input_dir./intern_data.csv and rerun the program.;
         %return;
     %end;
 

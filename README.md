@@ -45,6 +45,30 @@ Year,Sector,Industry,Company,Position,Paid,Stipend,Location,Collection_Date,Num_
 
 One row should represent one recruitment record. `Num_Positions` is optional. If it is missing, the program assigns a supply weight of 1 to that record.
 
+The repository now includes a collected file at `data/intern_data.csv` with 537 deduplicated Hong Kong internship-related records. The collection combines two public structured sources:
+
+- [HK Career Watch `jobs.json`](https://github.com/laier029/hk-career-watch/blob/main/jobs.json), which preserves employer or job-board source URLs, posting dates where available, and first-seen dates when a posting date is unavailable.
+- [Workopia Hong Kong internship listings](https://github.com/workopia/Hong-Kong-Graduate-Internship-Jobs/blob/main/.github/scripts/listings.json) and its [active snapshot](https://github.com/workopia/Hong-Kong-Graduate-Internship-Jobs/blob/main/data/active.json), which provide active listings and employer-facing Workopia URLs.
+
+The current year counts are:
+
+| Listing year | Records |
+|---:|---:|
+| 2023 | 2 |
+| 2024 | 2 |
+| 2025 | 4 |
+| 2026 | 529 |
+
+The data intentionally does not fabricate 2016–2022 records. `Year_Basis` identifies whether the year comes from a published date or a first-seen-date proxy. `Source_URL`, `Data_Source`, `Source_Repository`, `Posting_Date`, `Listing_Status`, `Program_Year`, and `Season` provide provenance and support later auditing. Salary is left missing unless the source gives a usable amount; `Salary_Text` retains salary wording that cannot safely be converted to a comparable stipend.
+
+To refresh the collection, run:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File scripts/collect_intern_data.ps1
+```
+
+The collection is a current public-listing snapshot rather than a complete historical census. The year distribution must therefore be shown in the report and should not be interpreted as comparable annual market totals.
+
 ## SAS implementation
 
 The complete executable program is:

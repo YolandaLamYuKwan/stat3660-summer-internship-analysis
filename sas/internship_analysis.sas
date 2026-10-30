@@ -60,6 +60,16 @@ run;
             large_private_flag   8
             position_group       $40
             log_stipend          8
+            record_id            $80
+            source_url           $500
+            source_repository    $150
+            data_source          $150
+            listing_status       $30
+            posting_date_std     8
+            year_basis            $40
+            program_year         $30
+            salary_text_std      $200
+            season_std           $30
             year_text            $100
             sector_raw           $200
             industry_raw         $200
@@ -81,6 +91,16 @@ run;
         stipend_text    = strip(vvaluex('Stipend'));
         location_raw    = lowcase(strip(vvaluex('Location')));
         collection_text = strip(vvaluex('Collection_Date'));
+        record_id       = strip(vvaluex('Record_ID'));
+        source_url      = strip(vvaluex('Source_URL'));
+        source_repository = strip(vvaluex('Source_Repository'));
+        data_source     = strip(vvaluex('Data_Source'));
+        listing_status  = strip(vvaluex('Listing_Status'));
+        posting_date_std = input(strip(vvaluex('Posting_Date')), anydtdte.);
+        year_basis      = strip(vvaluex('Year_Basis'));
+        program_year    = strip(vvaluex('Program_Year'));
+        salary_text_std = strip(vvaluex('Salary_Text'));
+        season_std      = strip(vvaluex('Season'));
 
         /*------------------------ Year -------------------------*/
         year_std = input(compress(year_text,,'kd'), 4.);
@@ -380,7 +400,9 @@ run;
             year_std sector_std industry_std company_std position_std
             paid_status paid_flag stipend_num location_std location_group
             collection_date_std num_positions_std supply_weight posting_count
-            large_private_flag position_group log_stipend;
+            large_private_flag position_group log_stipend
+            record_id source_url source_repository data_source listing_status
+            posting_date_std year_basis program_year salary_text_std season_std;
 
     run;
 
@@ -484,6 +506,16 @@ run;
         Industry           = industry_std;
         Company            = company_std;
         Position           = position_std;
+        Record_ID          = record_id;
+        Source_URL         = source_url;
+        Source_Repository  = source_repository;
+        Data_Source        = data_source;
+        Listing_Status     = listing_status;
+        Posting_Date       = posting_date_std;
+        Year_Basis         = year_basis;
+        Program_Year       = program_year;
+        Salary_Text        = salary_text_std;
+        Season             = season_std;
         Paid_Status        = paid_status;
         Paid_Flag          = paid_flag;
         Stipend            = stipend_num;
@@ -521,13 +553,25 @@ run;
             Posting_Count      = 'Posting Count'
             Large_Private_Flag = 'Large Private Sector Indicator'
             Position_Group     = 'Position Group'
-            Log_Stipend        = 'Log Stipend';
+            Log_Stipend        = 'Log Stipend'
+            Record_ID          = 'Source Record ID'
+            Source_URL         = 'Source URL'
+            Source_Repository  = 'Source Repository'
+            Data_Source        = 'Data Source'
+            Listing_Status     = 'Listing Status'
+            Posting_Date       = 'Posting Date'
+            Year_Basis         = 'Year Basis'
+            Program_Year       = 'Program Year'
+            Salary_Text        = 'Salary Text'
+            Season             = 'Internship Season';
 
         keep
             Year Sector Industry Company Position Paid_Status Paid_Flag
             Stipend Location Location_Group Collection_Date Num_Positions
             Supply_Weight Posting_Count Large_Private_Flag Position_Group
-            Log_Stipend;
+            Log_Stipend Record_ID Source_URL Source_Repository Data_Source
+            Listing_Status Posting_Date Year_Basis Program_Year Salary_Text
+            Season;
 
     run;
 

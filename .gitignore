@@ -25,3 +25,4 @@ Thumbs.db
 
 # Keep the documented input template in version control
 !data/intern_data_template.csv
+!data/intern_data.csv

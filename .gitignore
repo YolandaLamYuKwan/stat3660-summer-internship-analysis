@@ -1,0 +1,27 @@
+# Raw and generated data files
+data/*.csv
+data/*.xlsx
+data/*.xls
+data/*.sas7bdat
+output/
+
+# SAS generated files
+*.log
+*.lst
+*.html
+*.rtf
+*.pdf
+*.png
+*.jpg
+*.jpeg
+*.svg
+*.gseg
+*.pcl
+
+# Editor and operating-system files
+.DS_Store
+Thumbs.db
+.vscode/
+
+# Keep the documented input template in version control
+!data/intern_data_template.csv

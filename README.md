@@ -69,11 +69,43 @@ powershell -ExecutionPolicy Bypass -File scripts/collect_intern_data.ps1
 
 The collection is a current public-listing snapshot rather than a complete historical census. The year distribution must therefore be shown in the report and should not be interpreted as comparable annual market totals.
 
+## Source inventory and pie charts
+
+[DATA_SOURCES.txt](source/DATA_SOURCES.txt) lists the exact GitHub feed URLs,
+retained-record counts, original and stored formats, and all referenced
+listing domains. The data flow is **GitHub JSON feed → filtering and
+normalisation → CSV → SAS**. The CSV is the converted input to SAS.
+
+Run [source_pies.sas](sas/source_pies.sas) to display two pie charts in
+SAS Studio: records by GitHub repository provider and records by original
+collection format. The audit uses all 537 CSV rows, assigning each once
+according to Source_Repository. HK Career Watch contributes 472 rows
+(87.90%); Workopia contributes 65 (12.10%). Original format is GitHub JSON
+feed for all 537 rows (100%). Both repositories are hosted on GitHub;
+the website chart distinguishes repository providers.
+
+The referenced job-page hosts inside Source_URL are listed separately.
+They do not indicate that this project directly scraped those websites.
+Rebuild the local inventory with scripts/build_source_inventory.ps1.
+
+All source tables and CSV snapshots are in [source/](source/). The five
+SAS-produced CSV tables are source_records.csv, website_counts.csv,
+format_counts.csv, linked_hosts.csv, and feed_counts.csv. The source folder
+also contains a snapshot of intern_data.csv; data/intern_data.csv remains
+the input used by the existing SAS programs. Do not append the snapshot
+to the analysis input, because it contains the same records.
+
+For the five core research figures from CSV alone, use
+[render_core_graphs.sas](sas/render_core_graphs.sas). It was executed in
+SAS OnDemand on 2026-10-31 and retained 472 records after additional URL
+and exact employer/title/year deduplication. This happens to equal the
+HK Career Watch source count but represents a different set of records.
+
 ## SAS implementation
 
 For the ten assessment requirements in the course checklist, run the
 standalone [checklist program](sas/checklist_requirements.sas). See the
-[requirement mapping](docs/CHECKLIST.md) for the
+[requirement mapping](CHECKLIST.md) for the
 item-by-item code mapping, setup, generated Excel/raw inputs, output files,
 and interpretation. It includes Excel and raw-file reads, keyed merges,
 labelled listings, four largest/smallest observations, two chart types, and

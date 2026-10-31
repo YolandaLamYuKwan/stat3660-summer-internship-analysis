@@ -1,0 +1,154 @@
+STAT 3660SEF - DATA SOURCES AND FILE FORMATS
+===========================================
+Collection date recorded in the CSV: 2026-10-31
+Input: data/intern_data.csv | Retained rows: 537 | Columns: 20
+CSV SHA-256: 5ef5e426ee309701af0b18f35ea4690b119710409e8500f9c8fac2b3b556a46a
+
+1. DATA FLOW AND FORMAT
+Original collection format: GitHub JSON feed (JSON).
+Conversion: GitHub JSON feed -> filtering/normalisation -> deduplication -> CSV -> SAS.
+The data become a UTF-8 CSV file at data/intern_data.csv.
+SAS reads this converted CSV for analysis and the two source pie charts.
+CSV is the stored analysis format, not a second original format.
+No Excel workbook or fixed-width raw text file contributed collected records.
+The course checklist generates separate demonstration files; these do not count as collection sources.
+
+2. DIRECT COLLECTION SOURCES
+Both repositories are hosted on GitHub. They provide the JSON feeds actually downloaded.
+
+HK Career Watch
+  Website: https://github.com/laier029/hk-career-watch
+  Downloaded feed: https://raw.githubusercontent.com/laier029/hk-career-watch/main/jobs.json
+  Original format: GitHub JSON feed (JSON)
+  Converted format: CSV
+  Retained CSV rows: 472 (87.90%)
+  Notes: Public internship/job-monitoring feed. Contains source URLs and dates where available.
+
+Workopia - structured listings
+  Website: https://github.com/workopia/Hong-Kong-Graduate-Internship-Jobs
+  Downloaded feed: https://raw.githubusercontent.com/workopia/Hong-Kong-Graduate-Internship-Jobs/main/.github/scripts/listings.json
+  Original format: GitHub JSON feed (JSON)
+  Converted format: CSV
+  Retained CSV rows: 65 (12.10%)
+  Notes: Public structured Hong Kong graduate/internship listing feed.
+
+Workopia - active snapshot
+  Website: https://github.com/workopia/Hong-Kong-Graduate-Internship-Jobs
+  Downloaded feed: https://raw.githubusercontent.com/workopia/Hong-Kong-Graduate-Internship-Jobs/main/data/active.json
+  Original format: GitHub JSON feed (JSON)
+  Converted format: CSV
+  Retained CSV rows: 0 (0.00%)
+  Notes: Active-listing snapshot checked by the collector. No additional retained rows in this CSV.
+
+3. PIE CHART DEFINITIONS
+Denominator: 537 rows of the committed CSV. No additional vacancy deduplication in this audit.
+Website/provider pie: HK Career Watch = 472 rows (87.90%).
+Website/provider pie: Workopia = 65 rows (12.10%).
+Original-format pie: GitHub JSON feed = 537 rows (100.00%).
+Stored/SAS-input format: CSV = 537 rows (100.00%); not another slice in the original-format pie.
+Website slices distinguish repository providers; a hosting-domain-only count would be GitHub 100%.
+
+4. ATTRIBUTION AND LIMITATIONS
+Each retained row is assigned once using Source_Repository, not the Source_URL domain.
+Counts are after the collector keeps the first company/title/location/year record.
+HK Career Watch can itself reference Workopia. Those rows count under HK Career Watch when that repository is the recorded import source.
+Do not add the Data_Source Workopia count to the repository-level Workopia count.
+Source_URL points to a referenced listing. It does not prove this project directly downloaded or scraped that page.
+The feeds may have used HTML, APIs or other methods upstream; this project cannot infer those original formats from a URL.
+Do not classify a referenced job page as an imported HTML, Excel, PDF or raw-file record.
+This audit counts CSV rows. It does not claim every row is a unique vacancy or every source claim was independently verified.
+The 472 rows attributed to HK Career Watch are not the same denominator as the 472 records retained by the separate core-chart deduplication.
+
+5. REFERENCED LISTING WEBSITES
+The following hosts come from Source_URL. They are indirect references, not direct collection endpoints.
+Normalisation: remove a leading www. only; preserve ATS subdomains.
+Host count: 79 | Row count: 537
+Host | Rows | Share of CSV rows
+linkedin.com | 212 | 39.48%
+workopia.io | 139 | 25.88%
+job-boards.greenhouse.io | 12 | 2.23%
+manulife.wd3.myworkdayjobs.com | 11 | 2.05%
+efinancialcareers.hk | 10 | 1.86%
+hk.whatjobs.com | 10 | 1.86%
+ekbq.fa.em2.oraclecloud.com | 9 | 1.68%
+apply.workable.com | 8 | 1.49%
+fwd.wd3.myworkdayjobs.com | 8 | 1.49%
+jobs.smartrecruiters.com | 7 | 1.30%
+careers.hyatt.com | 6 | 1.12%
+hk.jobsdb.com | 6 | 1.12%
+apply.careers.hsbc.com | 5 | 0.93%
+careers-page.com | 5 | 0.93%
+ctgoodjobs.hk | 5 | 0.93%
+careers.ing.com | 3 | 0.56%
+careers.manulife.com | 3 | 0.56%
+careers.oxfordeconomics.com | 3 | 0.56%
+job-boards.anz.greenhouse.io | 3 | 0.56%
+barclays.wd3.myworkdayjobs.com | 2 | 0.37%
+careers.hkpc.org | 2 | 0.37%
+careers.rosewoodhotelgroup.com | 2 | 0.37%
+careers.wbd.com | 2 | 0.37%
+clamc.com.hk | 2 | 0.37%
+epej.fa.us2.oraclecloud.com | 2 | 0.37%
+grnh.se | 2 | 0.37%
+job-boards.eu.greenhouse.io | 2 | 0.37%
+jobs.adidas-group.com | 2 | 0.37%
+jobs.lever.co | 2 | 0.37%
+lvmh.com | 2 | 0.37%
+sunlife.wd3.myworkdayjobs.com | 2 | 0.37%
+aia.wd3.myworkdayjobs.com | 1 | 0.19%
+bnpparibas.com.hk | 1 | 0.19%
+career.bowtie.com.hk | 1 | 0.19%
+careers.allianz.com | 1 | 0.19%
+careers.axa.com | 1 | 0.19%
+careers.dhl.com | 1 | 0.19%
+careers.dlapiper.com | 1 | 0.19%
+careers.elcompanies.com | 1 | 0.19%
+careers.google.com | 1 | 0.19%
+careers.ifastcorp.com | 1 | 0.19%
+careers.kering.com | 1 | 0.19%
+careers.pg.com.cn | 1 | 0.19%
+careers.richemont.com | 1 | 0.19%
+careers.societegenerale.com | 1 | 0.19%
+clover-lentil-da6.notion.site | 1 | 0.19%
+dayone.wd102.myworkdayjobs.com | 1 | 0.19%
+djeholdings.wd5.myworkdayjobs.com | 1 | 0.19%
+emertongroup.recruitee.com | 1 | 0.19%
+endowus.careers-page.com | 1 | 0.19%
+fa-eoic-saasfaprod1.fa.ocs.oraclecloud.com | 1 | 0.19%
+fccihk.zohorecruit.com | 1 | 0.19%
+fticonsulting.wd108.myworkdayjobs.com | 1 | 0.19%
+hitachi.wd1.myworkdayjobs.com | 1 | 0.19%
+hk.indeed.com | 1 | 0.19%
+htsc.wd102.myworkdayjobs.com | 1 | 0.19%
+hyatt.taleo.net | 1 | 0.19%
+janestreet.com | 1 | 0.19%
+jobs.infineon.com | 1 | 0.19%
+jumptrading.com | 1 | 0.19%
+lifung.wd3.myworkdayjobs.com | 1 | 0.19%
+logitech.wd5.myworkdayjobs.com | 1 | 0.19%
+mckinsey.com | 1 | 0.19%
+mmc.wd1.myworkdayjobs.com | 1 | 0.19%
+onthelist.bamboohr.com | 1 | 0.19%
+phf.tbe.taleo.net | 1 | 0.19%
+prudential.wd3.myworkdayjobs.com | 1 | 0.19%
+recrutement.bpce.fr | 1 | 0.19%
+recrutement.natixis.com | 1 | 0.19%
+sidley.wd501.myworkdayjobs.com | 1 | 0.19%
+solactive.jobs.personio.com | 1 | 0.19%
+spgi.wd5.myworkdayjobs.com | 1 | 0.19%
+startup.jobs | 1 | 0.19%
+t.gohiring.com | 1 | 0.19%
+tas-hyatt.taleo.net | 1 | 0.19%
+teamlewis.com | 1 | 0.19%
+univers.freshteam.com | 1 | 0.19%
+warnerbros.wd5.myworkdayjobs.com | 1 | 0.19%
+wd3.myworkdaysite.com | 1 | 0.19%
+
+6. REPRODUCIBILITY
+Collection code: scripts/collect_intern_data.ps1
+TXT inventory code: scripts/build_source_inventory.ps1
+SAS pie charts and SAS-generated companion TXT: sas/source_pies.sas
+GitHub destination: source/ for all source tables, TXT and CSV; sas/ for SAS code.
+SAS table exports: source_records.csv, website_counts.csv, format_counts.csv, linked_hosts.csv, feed_counts.csv.
+source/intern_data.csv is a snapshot of data/intern_data.csv, not new observations to append.
+The collection CSV remains unchanged by this provenance audit.

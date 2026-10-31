@@ -157,7 +157,7 @@ title1 "1. Structure of collected internship listings";
 footnote1 "N=&graph_count after URL and exact-title deduplication; input N=&input_count.";
 proc sgplot data=figs.sector_share dattrmap=work.sector_colors noautolegend;
     hbarparm category=Sector response=Share / group=Sector attrid=sector
-        datalabel datalabelattrs=(size=11);
+        groupdisplay=cluster datalabel datalabelattrs=(size=11);
     xaxis grid label="Share of collected postings" values=(0 to 1 by 0.1);
     yaxis display=(nolabel);
 run;

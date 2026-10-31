@@ -1,5 +1,14 @@
 # STAT 3660SEF Group Project
 
+# Change file direction before run
+```text
+sas/internship_analysis.sas
+```
+```text
+%let project_dir=/home/u64320991/stat3660-summer-internship-analysis;
+```
+Change file direction project_dir into your own direction
+
 ## Hong Kong University Summer Internship Supply, 2016–2026
 
 This repository contains the research framework and SAS implementation for analysing the supply structure of summer internship opportunities available to university students in Hong Kong from 2016 to 2026.

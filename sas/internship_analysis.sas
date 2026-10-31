@@ -19,9 +19,10 @@ ods graphics on;
  | macOS, Linux, SAS Studio, and other computers.               |
  *--------------------------------------------------------------*/
 
-filename project ".";
-%let project_dir=%sysfunc(pathname(project));
-filename project clear;
+******************Important***************************;
+%let project_dir=/home/u64320991/stat3660-summer-internship-analysis;
+*****↑↑↑↑↑↑↑↑↑↑↑change this to your file direction;
+
 
 %let input_dir=&project_dir./data;
 %let output_dir=&project_dir./output;

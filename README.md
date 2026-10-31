@@ -71,7 +71,16 @@ The collection is a current public-listing snapshot rather than a complete histo
 
 ## SAS implementation
 
-The complete executable program is:
+For the ten assessment requirements in the course checklist, run the
+standalone [checklist program](sas/checklist_requirements.sas). See the
+[requirement mapping](docs/CHECKLIST.md) for the
+item-by-item code mapping, setup, generated Excel/raw inputs, output files,
+and interpretation. It includes Excel and raw-file reads, keyed merges,
+labelled listings, four largest/smallest observations, two chart types, and
+three types of statistical analysis. All preparation and analysis in this
+program use SAS.
+
+The original research framework and five-figure program is:
 
 ```text
 sas/internship_analysis.sas

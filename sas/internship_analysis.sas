@@ -1,8 +1,7 @@
 /*==============================================================*
- | STAT 3660SEF Group Project                                   |
- | Hong Kong University Summer Internship Supply, 2016-2026    |
+ | STAT 3660SEF Group Project    G27                            | 
  |                                                              |
- | The program assumes one row per recruitment record.         |
+ | The program assumes one row per recruitment record.          |
  | If Num_Positions is missing, one record receives weight 1.   |
  *==============================================================*/
 
@@ -15,7 +14,7 @@ ods graphics on;
  | 1. Portable project paths                                    |
  |                                                              |
  | Run this program with the repository root as the SAS current |
- | working directory. The paths below then work on Windows,    |
+ | working directory. The paths below then work on Windows,     |
  | macOS, Linux, SAS Studio, and other computers.               |
  *--------------------------------------------------------------*/
 
@@ -38,8 +37,8 @@ run;
 /*--------------------------------------------------------------*
  | 2. Standardise one imported dataset                          |
  |                                                              |
- | VVALUEX reads a variable as text regardless of whether the  |
- | original source imported it as character or numeric.        |
+ | VVALUEX reads a variable as text regardless of whether the   |
+ | original source imported it as character or numeric.         |
  *--------------------------------------------------------------*/
 
 %let norm_list=;
@@ -457,7 +456,7 @@ run;
 %import_csv_if_exists(file=intern_data_source3.csv, out=raw_source3);
 
 /*--------------------------------------------------------------*
- | 4. Optional Excel import                                    |
+ | 4. Optional Excel import                                     |
  | Uncomment and edit the macro call if required.               |
  *--------------------------------------------------------------*/
 
@@ -657,7 +656,7 @@ proc univariate data=outlib.intern_analysis;
 run;
 
 /*--------------------------------------------------------------*
- | 8. Figure 1: overall supply structure                       |
+ | 8. Figure 1: overall supply structure                        |
  *--------------------------------------------------------------*/
 
 proc sql noprint;
@@ -778,7 +777,7 @@ run;
 title;
 
 /*--------------------------------------------------------------*
- | 12. Figure 5: stipend distribution by sector                  |
+ | 12. Figure 5: stipend distribution by sector                 |
  *--------------------------------------------------------------*/
 
 title 'Figure 5: Reported Stipend Distribution by Sector';
@@ -791,7 +790,7 @@ run;
 title;
 
 /*--------------------------------------------------------------*
- | 13. Cross-tabulations and additional analysis                 |
+ | 13. Cross-tabulations and additional analysis                |
  *--------------------------------------------------------------*/
 
 proc freq data=outlib.intern_analysis;
@@ -804,7 +803,7 @@ proc freq data=outlib.intern_analysis order=freq;
 run;
 
 /*--------------------------------------------------------------*
- | 14. Logistic regression for paid opportunity                  |
+ | 14. Logistic regression for paid opportunity                 |
  *--------------------------------------------------------------*/
 
 ods output ParameterEstimates=work.logistic_parameters;
@@ -835,7 +834,7 @@ data outlib.logistic_scored;
 run;
 
 /*--------------------------------------------------------------*
- | 15. GLM comparison of reported stipend                        |
+ | 15. GLM comparison of reported stipend                       |
  *--------------------------------------------------------------*/
 
 proc glm data=outlib.intern_analysis;
@@ -848,7 +847,7 @@ run;
 quit;
 
 /*--------------------------------------------------------------*
- | 16. Company-level supply concentration                        |
+ | 16. Company-level supply concentration                       |
  *--------------------------------------------------------------*/
 
 proc sql noprint;
@@ -875,7 +874,7 @@ proc sql;
 quit;
 
 /*--------------------------------------------------------------*
- | 17. Save analysis tables                                      |
+ | 17. Save analysis tables                                     |
  *--------------------------------------------------------------*/
 
 data outlib.sector_supply_summary;

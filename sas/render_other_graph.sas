@@ -64,7 +64,7 @@
     run;
     filename ogcsv clear;
 
-    /* 2*/
+    /* 2 */
     data work.og_input;
         set work.og_raw;
         if missing(Year) or Year<2016 or Year>2026 then delete;
@@ -196,7 +196,7 @@
     ods pdf file="&other_graph_dir./other_graphs.pdf" style=HTMLBlue notoc;
     ods graphics on / reset=all width=10in height=5.5in imagefmt=png;
 
-    /* Empirical CDF: not an ordinary time-series line graph */
+    /* A1 Empirical CDF */
     %if &og_employers>=2 %then %do;
         ods graphics / reset=index imagename="other_A1_employer_cdf";
         title1 "A1. Cumulative distribution of employer posting volume";
@@ -211,9 +211,7 @@
     %end;
     %else %put WARNING: A1 skipped - fewer than two observed employer labels.;
 
-    /* A2 - Quantile diagnostic, distinct from a two-variable scatter.
-       Count ties remain after logging. Normality is not assumed and a
-       reference line does not establish it or validate later inference. */
+    /* A2 Quantile diagnostic */
     %if &og_employers>=5 and &og_employer_values>=3 %then %do;
         ods graphics / reset=index imagename="other_A2_log_volume_qq";
         title1 "A2. Normal Q-Q diagnostic of log employer posting volume";
@@ -228,9 +226,9 @@
     %end;
     %else %put WARNING: A2 skipped - insufficient employer count variation.;
 
-    /* Standalone KDE: deliberately no HISTOGRAM overlay.
+    /* B1 Standalone KDE: deliberately no HISTOGRAM overlay.
        Use density units, NOT a percentage or histogram-bin proportion.
-       Integer title lengths are smoothed as a descriptive approximation */
+       Integer title lengths are smoothed as a descriptive approximation. */
     %if &og_title_n>=20 and &og_title_values>=5 %then %do;
         ods graphics / reset=index imagename="other_B1_title_length_kde";
         title1 "B1. Kernel density of collected job title lengths";
@@ -248,12 +246,12 @@
     %end;
     %else %put WARNING: B1 skipped - insufficient nonmissing title length variation.;
 
-    /* LOESS fitted curve only: no SCATTER or SERIES statement.
+    /* B2 LOESS fitted curve only: no SCATTER or SERIES statement.
        Each retained posting has equal weight. SMOOTH=0.65 controls the
        local neighbourhood; DEGREE=1 fits local straight-line models.
        No CLM band: web selection and source artefacts remain unmodelled.
        Age means publication-to-snapshot lag, not time to fill a vacancy,
-       application duration or the internship programme's start date */
+       application duration or the internship programme's start date. */
     %if &og_curve_n>=30 and &og_curve_ages>=8 and &og_curve_titles>=3 %then %do;
         ods graphics / reset=index imagename="other_B2_title_age_loess";
         title1 "B2. Smoothed title length by publication-to-snapshot age";
@@ -274,12 +272,46 @@
 
     title;
     footnote;
+    ods graphics off;
+
+    /* Report Sections 4.10-4.13 use the summaries below. These requests
+       were also run in SAS Studio when preparing the Word report.
+       Keep them with this standalone program so its saved HTML/PDF
+       reproduces both the four figures and their supporting numbers.
+       Graphics are off: FREQ and MEANS add tables, not extra charts.
+       Current snapshot: 472 postings, 265 employer labels, 321 LOESS rows.
+       Counts and summaries are calculated from the input, not hard-coded. */
+    title "Employer CDF";
+    proc print data=ogout.employer_cdf noobs;
+    run;
+
+    title "Employer summary";
+    proc print data=ogout.employer_summary noobs;
+    run;
+
+    title "Title length summary";
+    proc means data=ogout.other_graph_records
+        n nmiss mean std min p25 median p75 max maxdec=3;
+        var Position_Chars;
+    run;
+
+    title "LOESS subset summary";
+    proc means data=ogout.loess_records n mean min median max maxdec=3;
+        var Position_Chars Listing_Age_Days;
+    run;
+
+    title "Source attribution after deduplication";
+    proc freq data=ogout.other_graph_records;
+        tables Source_Provider;
+    run;
+    title;
+
     ods pdf close;
     ods html5(id=othergraphs) close;
     ods listing close;
-    ods graphics off;
 
-    /* 6 */
+    /* 6. Save denominators and source-to-method mapping for the report.
+       ODS outputs are closed, so these create no additional charts. */
     data ogout.run_counts;
         length Stage $60;
         Stage='CSV input rows'; Records=&og_raw_n; output;
@@ -336,3 +368,4 @@
 %mend og_export;
 
 %render_other_graphs;
+

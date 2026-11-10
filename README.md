@@ -44,7 +44,6 @@ Read **LOG** before using **RESULTS**. Check errors, warnings, observation count
 | [graphs/](graphs/) | Saved figure PNGs for the report |
 | [source/](source/) | Source inventory, audit CSV tables and a duplicate input snapshot |
 | [scripts/](scripts/) | PowerShell collection and source-inventory scripts |
-| `output/` | Generated reports, datasets and tables; ignored by Git by default |
 
 The programs use different samples and purposes. The core and additional graph programs use the same duplicate rules and retain 472 postings. The source audit and checklist start from all 537 input rows. Running one program does not validate every other program or model in the repository.
 

@@ -40,9 +40,7 @@
         %return;
     %end;
 
-    /* 1. Explicit schema: handles quoted commas, long text and blanks.
-       Match the column order of the committed CSV; do not reorder it.
-       Original date strings and source attribution remain available. */
+    /* 1 */
     data work.og_raw;
         length Year_Raw $20 Sector $40 Industry $100 Company $512
                Position Location Source_URL $8192 Paid $40 Stipend_Raw $100
@@ -66,10 +64,7 @@
     run;
     filename ogcsv clear;
 
-    /* 2. Use the same period and duplicate keys as render_core_graphs.sas.
-       Preserve exact employer/title text so the sample is comparable.
-       Row_ID supplies the URL-sort tie-breaker. Missing URLs do not
-       collapse unrelated records into a single observation. */
+    /* 2*/
     data work.og_input;
         set work.og_raw;
         if missing(Year) or Year<2016 or Year>2026 then delete;
@@ -119,9 +114,7 @@
         %return;
     %end;
 
-    /* 3. Employer-level observations for A1 and A2.
-       One row is one exact nonblank collected Company label.
-       These are NOT verified parent-company groups or vacancy counts. */
+    /* 3 */
     proc sql;
         create table ogout.employer_counts as
         select Company, count(*) as Postings
@@ -166,12 +159,7 @@
         drop Percent;
     run;
 
-    /* 4. Title diagnostics for B1 and B2.
-       Use the saved collection date, not TODAY(), so the historical
-       snapshot gives the same result when this code is rerun later.
-       B2 restricts to feed-labelled publication dates, the latest snapshot,
-       one provider and a recent window to reduce obvious mixing.
-       The date proxy is explicitly excluded; no dates are imputed. */
+    /* 4 */
     proc sql noprint;
         select max(Collection_Date_SAS) into :og_snapshot trimmed
             from ogout.other_graph_records;
@@ -200,12 +188,7 @@
             from ogout.loess_records;
     quit;
 
-    /* 5. Four requests only. UNIVARIATE NOPRINT suppresses its summary
-       tables while retaining explicitly requested statistical graphs.
-       Checks below prevent fitting constant or very sparse variables.
-       Their thresholds are rendering safeguards, not proof of validity.
-       The report is descriptive: no normality p-values or population
-       confidence bands are claimed for this convenience web sample. */
+    /* 5 */
     ods listing gpath="&other_graph_dir" image_dpi=200;
     ods html5(id=othergraphs) file="&other_graph_dir./other_graphs.html"
         options(bitmap_mode='inline') style=HTMLBlue;
@@ -213,7 +196,7 @@
     ods pdf file="&other_graph_dir./other_graphs.pdf" style=HTMLBlue notoc;
     ods graphics on / reset=all width=10in height=5.5in imagefmt=png;
 
-    /* A1 - Empirical CDF: not an ordinary time-series line graph. */
+    /* Empirical CDF: not an ordinary time-series line graph */
     %if &og_employers>=2 %then %do;
         ods graphics / reset=index imagename="other_A1_employer_cdf";
         title1 "A1. Cumulative distribution of employer posting volume";
@@ -245,9 +228,9 @@
     %end;
     %else %put WARNING: A2 skipped - insufficient employer count variation.;
 
-    /* B1 - Standalone KDE: deliberately no HISTOGRAM overlay.
+    /* Standalone KDE: deliberately no HISTOGRAM overlay.
        Use density units, NOT a percentage or histogram-bin proportion.
-       Integer title lengths are smoothed as a descriptive approximation. */
+       Integer title lengths are smoothed as a descriptive approximation */
     %if &og_title_n>=20 and &og_title_values>=5 %then %do;
         ods graphics / reset=index imagename="other_B1_title_length_kde";
         title1 "B1. Kernel density of collected job title lengths";
@@ -265,12 +248,12 @@
     %end;
     %else %put WARNING: B1 skipped - insufficient nonmissing title length variation.;
 
-    /* B2 - LOESS fitted curve only: no SCATTER or SERIES statement.
+    /* LOESS fitted curve only: no SCATTER or SERIES statement.
        Each retained posting has equal weight. SMOOTH=0.65 controls the
        local neighbourhood; DEGREE=1 fits local straight-line models.
        No CLM band: web selection and source artefacts remain unmodelled.
        Age means publication-to-snapshot lag, not time to fill a vacancy,
-       application duration or the internship programme's start date. */
+       application duration or the internship programme's start date */
     %if &og_curve_n>=30 and &og_curve_ages>=8 and &og_curve_titles>=3 %then %do;
         ods graphics / reset=index imagename="other_B2_title_age_loess";
         title1 "B2. Smoothed title length by publication-to-snapshot age";
@@ -296,8 +279,7 @@
     ods listing close;
     ods graphics off;
 
-    /* 6. Save denominators and source-to-method mapping for the report.
-       ODS outputs are closed, so these create no additional charts. */
+    /* 6 */
     data ogout.run_counts;
         length Stage $60;
         Stage='CSV input rows'; Records=&og_raw_n; output;
